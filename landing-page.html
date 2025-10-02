@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Todometer – Progress Made Simple</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            /* Light mode defaults */
+            --bg-gradient: linear-gradient(135deg,
+                    rgba(59, 130, 246, 0.35),
+                    rgba(139, 92, 246, 0.35),
+                    rgba(79, 70, 229, 0.35));
+            --text-color: #1f2937;
+            /* gray-800 */
+            --circle-track: rgba(0, 0, 0, 0.15);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-gradient: linear-gradient(135deg,
+                        rgba(59, 130, 246, 0.6),
+                        rgba(139, 92, 246, 0.6),
+                        rgba(79, 70, 229, 0.6));
+                --text-color: #f9fafb;
+                /* near-white */
+                --circle-track: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Blurred gradient blobs */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        .blob.blue {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            background: #3b82f6;
+        }
+
+        .blob.purple {
+            width: 250px;
+            height: 250px;
+            bottom: 80px;
+            right: -80px;
+            background: #a855f7;
+        }
+
+        .blob.indigo {
+            width: 200px;
+            height: 200px;
+            bottom: -80px;
+            left: 30%;
+            background: #6366f1;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .ring-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 2rem 0 1.5rem;
+            cursor: pointer;
+        }
+
+        svg {
+            transform: rotate(-90deg);
+        }
+
+        .ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 600;
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .store-btn {
+            display: inline-block;
+            margin: 1rem 0 2rem;
+        }
+
+        .store-btn img {
+            height: 50px;
+        }
+
+        .description {
+            max-width: 640px;
+            text-align: center;
+            line-height: 1.5;
+            padding: 0 1rem;
+            font-size: 1rem;
+        }
+
+        .availability {
+            margin: 1.5rem 0;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        footer a {
+            color: inherit;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Blobs -->
+    <div class="blob blue"></div>
+    <div class="blob purple"></div>
+    <div class="blob indigo"></div>
+
+    <header>
+        <h1>Todometer</h1>
+        <p>The no-BS to-do list that shows your progress as a ring.</p>
+    </header>
+
+    <!-- Completion Ring -->
+    <div class="ring-container" id="ring-container" title="Complete to open App Store">
+        <svg width="160" height="160">
+            <circle stroke="var(--circle-track)" fill="transparent" stroke-width="12" r="68" cx="80" cy="80"></circle>
+
+            <circle id="progress-circle" stroke="url(#gradient)" fill="transparent" stroke-width="12"
+                stroke-linecap="round" r="68" cx="80" cy="80" stroke-dasharray="427" stroke-dashoffset="427"
+                style="transition: stroke-dashoffset 0.6s ease"></circle>
+
+            <defs>
+                <linearGradient id="gradient" gradientTransform="rotate(90)">
+                    <stop offset="0%" stop-color="#06b6d4" />
+                    <stop offset="25%" stop-color="#3b82f6" />
+                    <stop offset="50%" stop-color="#a855f7" />
+                    <stop offset="75%" stop-color="#ec4899" />
+                    <stop offset="100%" stop-color="#f59e0b" />
+                </linearGradient>
+            </defs>
+        </svg>
+        <div class="ring-text" id="progress-text">0%</div>
+    </div>
+
+    <!-- App Store Button -->
+    <a href="https://apps.apple.com/fr/app/todometer/id6753231739" class="store-btn" target="_blank"
+        rel="noopener noreferrer">
+        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1410825600&h=be26a4aa9f1b6e7d29b47a84f09d12dc"
+            alt="Download on the App Store">
+    </a>
+
+    <!-- Description -->
+    <div class="description">
+        <p>
+            Meet Todometer—the no-BS to-do list that shows your progress as a ring.
+            Add a task, slide the gauge, and watch momentum build. Attach links or photos,
+            set a due date, and let gentle reminders keep you on track.
+            When it’s time to concentrate, start the built-in focus timer.
+            It’s simple, fast, and private—on iPhone, iPad, and visionOS.
+        </p>
+        <p>
+            <strong>What you’ll love</strong><br>
+            • A progress ring for every task<br>
+            • One-tap capture with notes, links, and photos<br>
+            • Due-date reminders you control<br>
+            • Clear analytics to see what matters today<br>
+            • A focus timer with end-of-session alerts<br>
+            • Your data stays on your device—no accounts, no ads
+        </p>
+    </div>
+
+    <!-- Availability -->
+    <div class="availability">
+        Available on iPhone, iPad, Mac, and visionOS
+    </div>
+
+    <footer>
+        <p>Developed by Sai Ankith Ramayanam</p>
+        <p>Contact: <a href="mailto:saiankithramayanam@gmail.com">saiankithramayanam@gmail.com</a></p>
+    </footer>
+
+    <script>
+        const circle = document.getElementById("progress-circle");
+        const text = document.getElementById("progress-text");
+        const ringContainer = document.getElementById("ring-container");
+
+        const radius = 68;
+        const circumference = 2 * Math.PI * radius;
+        circle.setAttribute("stroke-dasharray", circumference);
+
+        let progress = 0;
+
+        function setProgress(value) {
+            const offset = circumference - (value / 100) * circumference;
+            circle.setAttribute("stroke-dashoffset", offset);
+            text.textContent = `${value}%`;
+
+            if (value === 100) {
+                setTimeout(() => {
+                    window.open("https://apps.apple.com/fr/app/todometer/id6753231739", "_blank");
+                }, 600);
+            }
+        }
+
+        function animateRing() {
+            if (progress < 100) {
+                progress += 1;
+                setProgress(progress);
+                requestAnimationFrame(animateRing);
+            }
+        }
+
+        ringContainer.addEventListener("click", () => {
+            if (progress < 100) {
+                animateRing();
+            }
+        });
+
+        setProgress(0);
+    </script>
+
+</body>
+
+</html>
